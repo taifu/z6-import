@@ -38,3 +38,4 @@ example/*
 *.csv
 project/transformed
 project/conf/*.conf
+project/?_*.sh

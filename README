@@ -1,0 +1,10 @@
+<run_import>
+
+    docker run -ti -u root \
+        -v "$(pwd)/data:/opt/data"  \
+        -v "$(pwd)/project:/opt/project"  \
+        -v "$(pwd)/example:/opt/example"  \
+        z6-import bash  \
+        -c "cd /opt/project ; bash ./transform.sh ; bash ./load.sh ; bash"
+
+</run_import>
