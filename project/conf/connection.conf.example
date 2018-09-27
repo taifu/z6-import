@@ -1,0 +1,10 @@
+[Connection]
+hostname = 172.17.0.1
+database = dev_odoo11_test
+login = admin
+password = admin
+protocol = jsonrpc
+port = 8069
+uid = 1
+
+
