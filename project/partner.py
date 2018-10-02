@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo_csv_tools.lib import mapper
 from odoo_csv_tools.lib.transform import Processor
-from datetime import datetime
-from prefix import PARTNER_PREFIX, PARTNER_CATEGORY_PREFIX
+from prefix import PARTNER_PREFIX
+from config import CONNECTION_FILE
 
 
 def postprocess_country_id(val):
@@ -27,7 +27,7 @@ def postprocess_lang(val):
 
 def postprocess_vat(val):
     if val:
-        if len(val) == 11 and val.isdigit():
+        if len(val) == 11 and val.isdigit() and int(val) > 0:
             return 'IT{}'.format(val)
         if val[:2] == 'IT':
             if len(val) == 13 and val[:3].isdigit():
@@ -38,7 +38,7 @@ def postprocess_vat(val):
 
 
 # STEP 1 : read the needed file(s)
-processor = Processor('../data/NOMIN.CSV', delimiter=",")
+processor = Processor('../data/NOMIN.CSV', conf_file=CONNECTION_FILE, delimiter=",")
 
 
 # STEP 2 : Define the mapping for every object to import
@@ -69,20 +69,24 @@ mapping = {
 # 'RIFERIMEN3'
 # 'NUMERO_FAX'
 # 'RIFERIMEN4'
+def postprocess_riferimento(val, n):
+    return '{}.{}_RIF{}'.format(PARTNER_PREFIX, val, n)
+
+
 def postprocess_riferimento2(val):
-    return '{}_RIF2'.format(val)
+    return postprocess_riferimento(val, 2)
 
 
 def postprocess_riferimento3(val):
-    return '{}_RIF3'.format(val)
+    return postprocess_riferimento(val, 3)
 
 
 def postprocess_riferimento4(val):
-    return '{}_RIF4'.format(val)
+    return postprocess_riferimento(val, 4)
 
 
 def postprocess_riferimento5(val):
-    return '{}_RIF5'.format(val)
+    return postprocess_riferimento(val, 5)
 
 
 mapping2 = {
